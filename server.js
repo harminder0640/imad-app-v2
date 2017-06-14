@@ -87,7 +87,7 @@ app.get('/', function (req, res) {
        var names= [];
         app.get('/submit-name',function(rq,res) { //URL: /submit-name?name=xxxxxx
             //Get the name from the request
-            var name = req.query.name;
+            var name = req.params.name;
             
             names.push(name);
             //JSON: Java Script Object Notation

@@ -21,16 +21,27 @@ var interval = setInterval(moveRight, 100);
 
 //Counter code
 var button = document.getElementaryById('counter');
-var counter = 0;
 
 button.onclick = function() {
     
-      //Make a request to counter endpoint
+      //Create the request object
+      var request = new XMLHttpRequest();
       
       //Capture the response and store it in variable
+      request.onreadystatechange = function() {
+          if (request.readystate===XTMLHttpRequest.DONE) {
+            //Take some action
+            if(request.status === 200) {
+                var counter = request.responseText;
+                 var span = document.getElementaryById('count');
+                  span.innerHTML = counter.toString();
+            }
+          }
+          //Not done yet
+      };
       
-      //Render the variable in correct span
-      counter = counter + 1;
-      var span = document.getElementaryById('count');
-      span.innerHTML = counter.toString();
+    //Make the request
+    request.open('GET','http://harminder0640.imad.hasura-app.io/counter',true);
+    request.send(null);
+    
 };

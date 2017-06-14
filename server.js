@@ -116,9 +116,9 @@ app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
   });
 
-app.get('/submit-name/:name',function(rq,res) {
+app.get('/submit-name',function(rq,res) { //URL: /submit-name?name=xxxxxx
     //Get the name from the request
-    var name = req.params.name;
+    var name = req.query.name;
     
     names.push(name);
     //JSON: Java Script Object Notation

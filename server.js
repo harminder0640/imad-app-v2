@@ -85,9 +85,10 @@ app.get('/', function (req, res) {
     //  res.send(createTemplate(articles[articlesName]));
 
 app.get('/article-one',function(req,res)
-res.send(createTemplate(articleOne)))      
-  
-});
+res.send(createTemplate(articleOne)
+
+
+));
 
 app.get('/article-two',function(req,res)
 res.send(createTemplate(articleTwo)))   
@@ -95,7 +96,7 @@ res.send(createTemplate(articleTwo)))
 });
 
 app.get('/article-three',function(req,res)
-res.send(createTemplate(articleThree));      
+res.send(createTemplate(articleThree)))      
   
 });
 

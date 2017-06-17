@@ -1,7 +1,3 @@
-
-
-
-
 //Counter code
 var button = document.getElementById("counter");
 counter = 0;
@@ -9,7 +5,10 @@ counter = 0;
 button.onclick = function(){
     counter = counter +1;
     
-    
+  
+var submit = document.getElementById('submit_btn');
+submit.onclick= function(){
+  };
       //Create the request object
       var request = new XMLHttpRequest();
       
@@ -32,16 +31,12 @@ ul.innerHTML = list;
       };
       
     //Make the request
+      var nameInput = document.getElementById('name');
+     var name = nameInput.value;
     request.open('GET','http://harminder0640.imad.hasura-app.io/submit-name?name=' + name,true);
    request.send(null);
     
 };
 
-var nameInput = document.getElementById('name');
-var name = nameInput.value;
-var submit = document.getElementById('submit_btn');
-submit.onclick= function(){
-  
- 
-};
+
     

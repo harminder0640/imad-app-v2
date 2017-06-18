@@ -8,7 +8,7 @@ var config = {
     database: 'harminder0640',
     host: 'db.imad.hasura-app.io',
     port: '5432',
-    password: 'db-harminder0640-69086',
+    password: 'process.env.DB_PASSWORD',
     
 };
 

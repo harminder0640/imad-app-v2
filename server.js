@@ -4,6 +4,8 @@ var path = require('path');
 var Pool = require('pg').Pool;
 var crypto = require('crypto');
 var bodyParser = require('body-parser');
+app.use(morgan('combined'));
+app.use(bodyParser.json());
 
 
 var config = {

@@ -3,10 +3,6 @@ var morgan = require('morgan');
 var path = require('path');
 var Pool = require('pg').Pool;
 var crypto = require('crypto');
-var bodyParser = require('body-parser');
-app.use(morgan('combined'));
-app.use(bodyParser.json());
-
 
 var config = {
     user: 'harminder0640',
@@ -17,76 +13,9 @@ var config = {
     
 };
 
+var app = express();
+app.use(morgan('combined'));
 
-
-
-
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'index.html'));
-});
-
-function hash (input, salt) {
-    var hashed = crypto.pbkdf2Sync(input, salt, 10000, 512, 'sha512');
-    return["pbkdf2", "10000", salt, hashed.toString('hex')].join('$');
-    
-}
-app.get('/hash/:input', function (req, res) {
-    var hashedString = hash(req.params.input, 'this-is-some-random-string');
-    res.send(hashedString);
-});
-app.post('/create-user', function(req, res){
-    var username = req.body.username;
-    var password =req.body.password;
-    
-    var salt = crypto.randomBytes(128).toString('hex');
-    var dbstring = hash(password, salt);
-    pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbstring], function (err, result) {
-        if (err) {
-         res.status(500).send(err.toString());
-     } else {
-         res.send('User successfully created: ' + username);
-     }   
-        
-    });
-    
-});
-var counter=0;
-app.get('/counter', function(req,res) {
-    counter = counter+1;
-    res.send(counter.toString());
-});
-var articles = {
-        'article-one': {
-         title: 'Article One | Harminder Singh',
-         heading: 'Article One',
-         date: 'June 12,2017',
-         content: ` 
-             <p>
-                this is the article for my first article. this is the article for my first article.this is the article for my first article.
-            </p>
-             <p>
-                this is the article for my first article. this is the article for my first article.this is the article for my first article.
-            </p>
-             <p>
-                this is the article for my first article. this is the article for my first article.this is the article for my first article.
-            </p>`
-        },
-        'article-two': {title: 'Article Two | Harminder Singh',
-         heading: 'Article Two',
-         date: 'June 15,2017',
-         content: ` 
-             <p>
-                this is the article for my second article.
-            </p>`},
-        'article-three': {title: 'Article Three | Harminder Singh',
-         heading: 'Article Three',
-         date: 'June 20,2017',
-         content: ` 
-             <p>
-                this is the article for my three article.
-            </p>`}
-        };
 
 function createTemplate (data) {
     var title = data.title;
@@ -125,6 +54,21 @@ function createTemplate (data) {
         return htmlTemplate;
 }
 
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'index.html'));
+});
+
+function hash (input, salt) {
+    var hashed = crypto.pbkdf2Sync(input, salt, 10000, 512, 'sha512');
+    return hashed.toString('hex');
+    
+}
+
+app.get('/hash/:input', function(req, res) {
+   var hashedString = hash(req.params.input, 'this-is-some-random-string'); 
+   res.send(hashedString);
+});
+
 var pool = new Pool(config);
  app.get('/test-db', function (req, res) {
      pool.query('SELECT * FROM test', function(err, result) {
@@ -137,7 +81,11 @@ var pool = new Pool(config);
      
  });
  
-
+var counter=0;
+app.get('/counter', function(req,res) {
+    counter = counter+1;
+    res.send(counter.toString());
+});
 var names = [];
 app.get('/submit-name', function(req, res) {
   var name = req.query.name;
@@ -145,10 +93,6 @@ app.get('/submit-name', function(req, res) {
   names.push(name);
   
   res.send(JSON.stringify(names));
-});
-
-app.get('/ui/style.css', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'style.css'));
 });
 
  app.get('/articles/:articleName', function (req, res){
@@ -171,8 +115,12 @@ app.get('/ui/style.css', function (req, res) {
       
  });
 
-
- 
+app.get('/ui/style.css', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'style.css'));
+});
+app.get('/article-one', function (req,res) { 
+    res.sendFile(path.join(__dirname, 'ui', 'article-one.html'));
+}); 
 app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
 });

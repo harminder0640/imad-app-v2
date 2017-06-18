@@ -37,7 +37,8 @@ var articles = {
          content: ` 
              <p>
                 this is the article for my second article.
-            </p>`},
+            </p>
+            `},
         'article-three': {title: 'Article Three | Harminder Singh',
          heading: 'Article Three',
          date: 'June 20,2017',

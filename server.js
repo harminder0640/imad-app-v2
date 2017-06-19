@@ -139,7 +139,7 @@ app.get('/check-login', function (req, res) {
        // Load the user object
        pool.query('SELECT * FROM "user" WHERE id = $1', [req.session.auth.userId], function (err, result) {
            if (err) {
-              res.status(500).send(err.toString());
+              res.status(500).send(err());
            } else {
               res.send(result.rows[0].username);    
            }
